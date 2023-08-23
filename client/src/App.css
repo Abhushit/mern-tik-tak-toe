@@ -1,0 +1,47 @@
+body{
+  font-size: 18px;
+  font-weight: 400;
+  color:#333;
+}
+.mt-1{
+  margin-top: 10px;
+}
+.mt-2{
+  margin-top: 20px;
+}
+.mb-1{
+  margin-bottom: 10px;
+}
+.center{
+  text-align: center;
+}
+.h1,h1 {
+  font-size: 33px;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.container{
+  width: 90%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+/* Button Part */
+.click_btn {
+  background: #009879 !important;
+  color:#fff;
+  font-size: 16px;
+  padding: 15px 25px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+.click_btn:hover, .click_btn:focus, .click_btn:active {
+    border: none;
+    outline: none;
+}
+/* Button Part */

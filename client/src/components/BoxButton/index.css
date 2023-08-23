@@ -1,0 +1,13 @@
+.box_button {
+  width: 100px;
+  height: 100px;
+  font-size: 40px;
+  border: 1px solid #000;
+  background-color: transparent;
+  border-radius: 0;
+}
+.box_button:focus,
+.box_button:hover, .box_button:active {
+  outline: none;
+  border: 1px solid #000;
+}
