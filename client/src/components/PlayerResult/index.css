@@ -1,0 +1,10 @@
+.player_details{
+    padding: 10px 30px;
+    border: 1px solid #72f38e;
+    margin: 10px 0;
+    border-radius: 5px;
+  }
+
+  .player_details p {
+    margin:5px 0;
+  }

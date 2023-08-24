@@ -1,36 +1,34 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import BoxButton from "../BoxButton";
 import "./index.css";
 import CalculateWinner from "../../hooks/calculateWinner";
-import {useNavigate} from 'react-router-dom';
-
-interface detailsProps {
-  name: string;
-  wins: number;
-  lose: number;
-  ties: number;
-}
+import { useNavigate } from "react-router-dom";
+import PlayerProps from "../../types/PlayerType";
+import PlayerResult from "../PlayerResult";
 
 const Gameboard = () => {
-    const navigate = useNavigate();
+  const fetchUrl = import.meta.env.VITE_API_URL;
+
+  const navigate = useNavigate();
   const [turn, setTurn] = useState<boolean>(false);
-  const [player1Details, setPlayer1Details] = useState<detailsProps>({
+  const [player1Details, setPlayer1Details] = useState<PlayerProps>({
     name: "",
     wins: 0,
     lose: 0,
     ties: 0,
   });
 
-  const [player2Details, setPlayer2Details] = useState<detailsProps>({
+  const [player2Details, setPlayer2Details] = useState<PlayerProps>({
     name: "",
     wins: 0,
     lose: 0,
     ties: 0,
   });
 
-  var [datas, setDatas] = useState(["", "", "", "", "", "", "", "", ""]);
+  var [datas, setDatas] = useState<string[]>(["", "", "", "", "", "", "", "", ""]);
   const [winner, setWinner] = useState<string | null>("");
   const [disabled, setDisabled] = useState<boolean>(true);
+  const [saved, setSaved] = useState<boolean>(false);
 
   useEffect(() => {
     if (winner) {
@@ -106,18 +104,43 @@ const Gameboard = () => {
     handleStart();
   };
 
-  const handleStop = () => {};
+  const handleStop = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        player1: player1Details,
+        player2: player2Details,
+      }),
+    };
+    fetch(`${fetchUrl}/api/tiktaktoe`, requestOptions)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === 200) {
+        setSaved(true);
+        setTimeout(() => {
+          navigate(-1);
+        }, 1500);
+      }
+    });
+  };
 
   const handleBack = () => {
     navigate(-1);
-  }
+  };
 
   return (
     <section>
-        <div className="center mt-2 mb-1 relative">
-            <h1>Let's play the game!</h1>
-            <button className="click_btn absolute" onClick={handleBack} style={{ left:"0", top:"0px" }}>Back</button>
-        </div>
+      <div className="center mt-2 mb-1 relative">
+        <h1>Let's play the game!</h1>
+        <button
+          className="click_btn absolute"
+          onClick={handleBack}
+          style={{ left: "0", top: "0px" }}
+        >
+          Back
+        </button>
+      </div>
       {/* Enter the name section */}
       <section className="player_name_section">
         <div>
@@ -200,24 +223,19 @@ const Gameboard = () => {
                 Continue
               </button>
             </div>
+            {saved && (
+              <div className="center saved_data">
+                <p>Game data saved successfully</p>
+              </div>
+            )}
           </div>
         </div>
         {/* Game board */}
 
         {/* Player Result */}
         <div className="game_details">
-          <div className="player_details">
-            <p>{player1Details.name}</p>
-            <p>Wins: {player1Details.wins}</p>
-            <p>Loose: {player1Details.lose}</p>
-            <p>Tied: {player1Details.ties}</p>
-          </div>
-          <div className="player_details">
-            <p>{player2Details.name}</p>
-            <p>Wins: {player2Details.wins}</p>
-            <p>Loose: {player2Details.lose}</p>
-            <p>Tied: {player2Details.ties}</p>
-          </div>
+          <PlayerResult playerDetails={player1Details} />
+          <PlayerResult playerDetails={player2Details} />
         </div>
         {/* Player Result */}
       </section>

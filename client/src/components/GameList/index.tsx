@@ -1,8 +1,7 @@
-import React from "react";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
 
-const GameList = () => {
+const GameList = ({gameList}: any) => {
   const navigate = useNavigate();
 
   const handleNewgame = () => {
@@ -24,42 +23,15 @@ const GameList = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>{`Andrew (Win: 2 - Loss: 1 - Tied: 0)`}</td>
-            <td>{`harry (Win: 1 - Loss: 2 - Tied: 0)`}</td>
-            <td>3</td>
+          {gameList.length && gameList.map((game:any,index:number) => (
+            <tr>
+            <td>{index+1}</td>
+            <td>{`${game.player1.name} (Win: ${game.player1.wins} - Lose: ${game.player1.lose} - Tied: ${game.player1.ties})`}</td>
+            <td>{`${game.player2.name} (Win: ${game.player2.wins} - Lose: ${game.player2.lose} - Tied: ${game.player2.ties})`}</td>
+            <td>{game.player1.wins + game.player1.lose + game.player1.ties}</td>
           </tr>
-          <tr>
-            <td>1</td>
-            <td>{`Andrew (Win: 2 - Loss: 1 - Tied: 0)`}</td>
-            <td>{`harry (Win: 1 - Loss: 2 - Tied: 0)`}</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>{`Andrew (Win: 2 - Loss: 1 - Tied: 0)`}</td>
-            <td>{`harry (Win: 1 - Loss: 2 - Tied: 0)`}</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>{`Andrew (Win: 2 - Loss: 1 - Tied: 0)`}</td>
-            <td>{`harry (Win: 1 - Loss: 2 - Tied: 0)`}</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>{`Andrew (Win: 2 - Loss: 1 - Tied: 0)`}</td>
-            <td>{`harry (Win: 1 - Loss: 2 - Tied: 0)`}</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>{`Andrew (Win: 2 - Loss: 1 - Tied: 0)`}</td>
-            <td>{`harry (Win: 1 - Loss: 2 - Tied: 0)`}</td>
-            <td>3</td>
-          </tr>
+          ))}
+          
         </tbody>
       </table>
     </div>
