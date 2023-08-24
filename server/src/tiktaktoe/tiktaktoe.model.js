@@ -1,6 +1,7 @@
-import mongoose, { Schema } from "mongoose";
+var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 
-const TikTakToeSchema = new Schema(
+var TikTakToeSchema = new Schema(
   {
     player1: {
       name: String,
@@ -18,4 +19,4 @@ const TikTakToeSchema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("tiktaktoe", TikTakToeSchema);
+module.exports = mongoose.model("tiktaktoe", TikTakToeSchema);

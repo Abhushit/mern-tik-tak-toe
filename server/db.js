@@ -1,5 +1,8 @@
-import mongoose from 'mongoose';
-import dbConfig from './configs/db.config.js';
+var mongoose = require('mongoose');
+var dbConfig = require('./configs/db.config.js');
 
-mongoose.connect(dbConfig.dbURL).then(() => console.log('DB connected!'))
-.catch((err) => console.log('Db connection failed - ',err))
+mongoose.connect(dbConfig.dbURL).then(function () {
+  console.log('DB connected!');
+}).catch(function (err) {
+  console.log('Db connection failed - ', err);
+});
