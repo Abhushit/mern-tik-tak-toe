@@ -1,7 +1,7 @@
 import mongodb from "mongodb";
 const MongoClient = mongodb.MongoClient;
 
-const dbURL = "mongodb+srv://abhushit:abhushit@cluster0.hhnwlhw.mongodb.net/?retryWrites=true&w=majority";
+const dbURL = process.env.MONGODB_URI;
 
 export default {
     mongodb,

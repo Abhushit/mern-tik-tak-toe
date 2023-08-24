@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
+import path from "path"; 
+// import * as dotenv from 'dotenv';
+import 'dotenv/config';
 
 const app = express();
 
@@ -14,7 +16,7 @@ import MainRoute from "./src/tiktaktoe/tiktaetoe.route.js";
 
 app.set("PORT", process.env.PORT || 9000);
 //third party middlewares
-dotenv.config();
+// dotenv.config()
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,6 +54,8 @@ if (process.env.NODE_ENV === "production") {
       });
   })
 }
+
+console.log('production', process.env.NODE_ENV)
 
 app.listen(app.get("PORT"), function (err, done) {
   if (err) {
