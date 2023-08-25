@@ -11,3 +11,11 @@
   outline: none;
   border: 1px solid #000;
 }
+
+@media (max-width:768px) {
+  .box_button {
+    width: 80px;
+    height: 80px;
+    font-size: 30px;
+  }
+}

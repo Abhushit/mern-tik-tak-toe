@@ -45,3 +45,16 @@ body{
     outline: none;
 }
 /* Button Part */
+@media (max-width:768px) {
+  body{
+    font-size: 14px;
+  }
+  .h1,h1{
+    font-size: 25px;
+    margin: 0;
+  }
+  .click_btn{
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+}

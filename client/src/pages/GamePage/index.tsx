@@ -1,12 +1,12 @@
-import Gameboard from "../../components/Gameboard"
+import React from "react";
+import Gameboard from "../../components/Gameboard";
 
-const GamePage = () => {
-
+const GamePage: React.FC<{}> = () => {
   return (
     <>
-        <Gameboard />
+      <Gameboard />
     </>
-  )
-}
+  );
+};
 
-export default GamePage
+export default GamePage;

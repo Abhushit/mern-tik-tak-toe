@@ -38,3 +38,32 @@
 .saved_data{
   color:#175a25;
 }
+.back_button{
+  text-align: left ;
+  margin-bottom: 20px;
+}
+.start_button{
+  margin-top: 20px;
+}
+
+@media (max-width:768px) {
+  .player_name_section{
+    flex-direction: column;
+  }
+  .player_name_section input{
+    font-size: 14px;
+    padding: 10px;
+    width: 100%;
+  }
+  .start_button{
+    margin-top: 0;
+    text-align: right;
+  }
+  .game_section{
+    /* text-align: center; */
+    margin-top: 20px;
+    gap:20px;
+    flex-direction: column;
+  }
+  
+}

@@ -1,3 +1,4 @@
+import React from "react";
 import "./index.css";
 
 interface BoxButtonprops {
@@ -6,10 +7,10 @@ interface BoxButtonprops {
     disabled?: boolean
 }
 
-const BoxButton = ({ handleBoxClick, value, disabled }:BoxButtonprops) => {
+const BoxButton:React.FC<BoxButtonprops> = (props) => {
   return (
-    <button className="box_button" onClick={handleBoxClick} disabled={disabled}>
-      {value}
+    <button className="box_button" onClick={props.handleBoxClick} disabled={props.disabled}>
+      {props.value}
     </button>
   );
 };

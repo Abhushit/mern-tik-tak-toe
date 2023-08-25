@@ -1,7 +1,8 @@
+import React from 'react';
 import PlayerProps from "../../types/PlayerType";
 import './index.css';
 
-const PlayerResult = ({playerDetails}:{playerDetails: PlayerProps}) => {
+const PlayerResult:React.FC<{playerDetails:PlayerProps}> = ({playerDetails}) => {
   return (
     <div className="player_details">
       <b>{playerDetails.name}</b>

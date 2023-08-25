@@ -1,12 +1,17 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import BoxButton from "../BoxButton";
 import "./index.css";
 import CalculateWinner from "../../hooks/calculateWinner";
 import { useNavigate } from "react-router-dom";
 import PlayerProps from "../../types/PlayerType";
 import PlayerResult from "../PlayerResult";
+import ConfettiExplosion from "react-confetti-explosion";
 
-const Gameboard = () => {
+// Constants
+const PLAYER_X = "X";
+const PLAYER_O = "O";
+
+const Gameboard: React.FC<{}> = () => {
   const fetchUrl = import.meta.env.VITE_API_URL;
 
   const navigate = useNavigate();
@@ -25,44 +30,55 @@ const Gameboard = () => {
     ties: 0,
   });
 
-  var [datas, setDatas] = useState<string[]>(["", "", "", "", "", "", "", "", ""]);
+  var [datas, setDatas] = useState<string[]>([
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+  ]);
   const [winner, setWinner] = useState<string | null>("");
   const [disabled, setDisabled] = useState<boolean>(true);
   const [saved, setSaved] = useState<boolean>(false);
+  const [showFlare, setShowFlare] = useState<boolean>(false);
 
   useEffect(() => {
     if (winner) {
       setDisabled(true);
-      if (winner === "X") {
-        setPlayer1Details({
-          ...player1Details,
-          wins: player1Details.wins + 1,
-        });
-        setPlayer2Details({
-          ...player2Details,
-          lose: player2Details.lose + 1,
-        });
-      } else if (winner === "0") {
-        setPlayer2Details({
-          ...player2Details,
-          wins: player2Details.wins + 1,
-        });
-        setPlayer1Details({
-          ...player1Details,
-          lose: player1Details.lose + 1,
-        });
-      } else if (winner === "tie") {
-        setPlayer2Details({
-          ...player2Details,
-          ties: player2Details.ties + 1,
-        });
-        setPlayer1Details({
-          ...player1Details,
-          ties: player1Details.ties + 1,
-        });
-      }
+      updatePlayerDetails(winner);
     }
   }, [winner]);
+
+  const updatePlayerDetails = (winner: string) => {
+    const player1Update = { ...player1Details };
+    const player2Update = { ...player2Details };
+
+    if (winner === PLAYER_X) {
+      player1Update.wins++;
+      player2Update.lose++;
+      setShowFlare(true);
+      setTimeout(() => {
+        setShowFlare(false);
+      }, 3000);
+    } else if (winner === PLAYER_O) {
+      player2Update.wins++;
+      player1Update.lose++;
+      setShowFlare(true);
+      setTimeout(() => {
+        setShowFlare(false);
+      }, 3000);
+    } else if (winner === "tie") {
+      player1Update.ties++;
+      player2Update.ties++;
+    }
+
+    setPlayer1Details(player1Update);
+    setPlayer2Details(player2Update);
+  };
 
   //When click on the game board
   const handleBoxClick = (index: number) => {
@@ -114,15 +130,18 @@ const Gameboard = () => {
       }),
     };
     fetch(`${fetchUrl}/api/tiktaktoe`, requestOptions)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.status === 200) {
-        setSaved(true);
-        setTimeout(() => {
-          navigate(-1);
-        }, 1500);
-      }
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setSaved(true);
+          setTimeout(() => {
+            navigate(-1);
+          }, 1500);
+        }
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 
   const handleBack = () => {
@@ -133,8 +152,10 @@ const Gameboard = () => {
     <section>
       <div className="center mt-2 mb-1 relative">
         <h1>Let's play the game!</h1>
+      </div>
+      <div className="back_button">
         <button
-          className="click_btn absolute"
+          className="click_btn"
           onClick={handleBack}
           style={{ left: "0", top: "0px" }}
         >
@@ -172,7 +193,7 @@ const Gameboard = () => {
           />
         </div>
 
-        <div className="mt-2">
+        <div className="start_button">
           <button className="click_btn" onClick={handleStart}>
             Start
           </button>
@@ -183,7 +204,8 @@ const Gameboard = () => {
       <section className="mt-2">
         {!disabled ? (
           <h3>
-            <u>{player1Details.name}</u>: X and <u>{player2Details.name}</u>: 0
+            <u>{player1Details.name}</u>: {PLAYER_X} and{" "}
+            <u>{player2Details.name}</u>: {PLAYER_O}
           </h3>
         ) : (
           <p>
@@ -206,15 +228,21 @@ const Gameboard = () => {
               />
             ))}
           </div>
+
+          {/* Winning Celebration */}
+          {showFlare && <ConfettiExplosion duration={3000} />}
+
           <div className="center">
-            {winner &&
-              (winner === "X" ? (
-                <p>{player1Details.name} wins!</p>
-              ) : winner === "tie" ? (
-                <p>It is a tie!</p>
-              ) : (
-                <p>{player2Details.name} wins!</p>
-              ))}
+            {winner && (
+              <p>
+                {winner === PLAYER_X
+                  ? `${player1Details.name} wins!`
+                  : winner === "tie"
+                  ? "It is a tie!"
+                  : `${player2Details.name} wins!`}
+              </p>
+            )}
+
             <div className="flex_buttons mt-2">
               <button className="stop_btn click_btn" onClick={handleStop}>
                 Stop
